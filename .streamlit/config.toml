@@ -1,0 +1,9 @@
+[server]
+# Impede desconexão por inatividade (padrão era ~30s, agora 5 minutos)
+maxMessageSize = 500
+timeout = 300
+enableCORS = false
+enableXsrfProtection = false
+
+[browser]
+gatherUsageStats = false

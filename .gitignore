@@ -1,0 +1,7 @@
+historico_codex.json
+codex_users.db
+__pycache__/
+*.pyc
+.env
+# Ignora secrets (chave da API) mas NÃO o config.toml
+.streamlit/secrets.toml
