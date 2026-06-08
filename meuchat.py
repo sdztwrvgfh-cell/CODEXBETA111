@@ -149,6 +149,18 @@ if "foto_pendente" not in st.session_state:
 if "popup_fechado" not in st.session_state:
     st.session_state.popup_fechado = False
 
+# Fecha pop-up via query param
+if st.query_params.get("close"):
+    st.session_state.popup_fechado = True
+    if st.query_params.get("notif"):
+        st.markdown("""<script>
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+        </script>""", unsafe_allow_html=True)
+    st.query_params.clear()
+    st.rerun()
+
 # ============================================================
 # 🍎 POP-UP LIQUID GLASS
 # ============================================================
@@ -240,27 +252,14 @@ if not st.session_state.popup_fechado:
             <div class="popup-subtitle">{POPUP_SUBTITULO}</div>
             <div class="popup-text">{POPUP_TEXTO}</div>
             <div class="popup-novidades">{POPUP_NOVIDADES}</div>
+            <div style="display:flex;gap:12px;justify-content:center;">
+                <a href="?close=1" class="popup-btn" style="padding:12px 20px;">✕</a>
+                <a href="?close=1&notif=1" class="popup-btn" style="flex:1;">{POPUP_BOTAO}</a>
+            </div>
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    col1, colX, colBtn, col3 = st.columns([1, 2, 3, 1])
-    with colX:
-        if st.button("✕", key="popup_close_x", help="Fechar"):
-            st.session_state.popup_fechado = True
-            st.rerun()
-    with colBtn:
-        if st.button(POPUP_BOTAO, key="popup_close_btn", use_container_width=True):
-            st.session_state.popup_fechado = True
-            if "notif_checked" not in st.session_state:
-                st.session_state.notif_checked = True
-                st.markdown("""<script>
-                if ('Notification' in window && Notification.permission === 'default') {
-                    Notification.requestPermission();
-                }
-                </script>""", unsafe_allow_html=True)
-            st.rerun()
 
 # --- MENU LATERAL ---
 with st.sidebar:
